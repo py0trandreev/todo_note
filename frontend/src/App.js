@@ -2,13 +2,15 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import UserList from './components/User.js'
+import MenuList from './components/Menu.js'
+import FooterItem from './components/Footer.js'
 import axios from 'axios'
 
 class App extends React.Component {
    constructor(props) {
        super(props)
        this.state = {
-           'users': []
+           'users': [],
        }
    }
 
@@ -21,7 +23,6 @@ class App extends React.Component {
                 'users': users
             }
         )
-        console.log("response" + response)
     })
     .catch(error => console.log(error))
    }
@@ -29,7 +30,9 @@ class App extends React.Component {
    render () {
        return (
         <div>
+          <MenuList />
           <UserList users={this.state.users} />
+          <FooterItem />
         </div>
        )
    }
