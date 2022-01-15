@@ -7,4 +7,4 @@ class UserModelSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = User
         # fields = '__all__'
-        exclude = ("birthday",)
+        exclude = ("birthyear",)
