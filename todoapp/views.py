@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from rest_framework.viewsets import ModelViewSet
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
 
 from todoapp.models import TODO, Project
 from todoapp.serializers import ProjectSerializer, TODOSerializer
@@ -9,7 +9,7 @@ from todoapp.serializers import ProjectSerializer, TODOSerializer
 
 class ProjectSetPagination(PageNumberPagination):
     page_size = 10
-    page_size_query_param = 'page_size'
+    page_size_query_param = "page_size"
     # max_page_size = 10000
 
 
@@ -20,7 +20,7 @@ class ProjectModelViewSet(ModelViewSet):
     pagination_class = ProjectSetPagination
 
     def get_queryset(self):
-        name = self.request.query_params.get('name', '')
+        name = self.request.query_params.get("name", "")
         projects = Project.objects.all()
         if name:
             projects = projects.filter(name__contains=name)
@@ -29,8 +29,9 @@ class ProjectModelViewSet(ModelViewSet):
 
 class TODOSetPagination(PageNumberPagination):
     page_size = 20
-    page_size_query_param = 'page_size'
+    page_size_query_param = "page_size"
     # max_page_size = 10000
+
 
 class TODOModelViewSet(ModelViewSet):
     queryset = TODO.objects.all()
@@ -41,10 +42,10 @@ class TODOModelViewSet(ModelViewSet):
         TODOel = self.get_object()
         TODOel.is_active = False
         TODOel.save()
-        return Response(data='delete success')
-    
+        return Response(data="delete success")
+
     def get_queryset(self):
-        projid = self.request.query_params.get('pid', '')
+        projid = self.request.query_params.get("pid", "")
         TODOs = TODO.objects.all()
         if projid:
             TODOs = TODOs.filter(project_id=projid)
