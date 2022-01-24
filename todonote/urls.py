@@ -19,16 +19,18 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from todoapp.views import ProjectModelViewSet, TODOModelViewSet
-from users.views import UserModelViewSet
+from users.views import UserCustomViewSet, UserModelViewSet
 
 router = DefaultRouter()
-router.register("users", UserModelViewSet)
+# router.register("users", UserModelViewSet)
+router.register("users", UserCustomViewSet)
 router.register("projects", ProjectModelViewSet)
 router.register("todos", TODOModelViewSet)
-
+# router.register('param', ProjectModelViewSet)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api-auth/", include("rest_framework.urls")),
     path("api/", include(router.urls)),
+    # path('filters/', include(router.urls)),
 ]

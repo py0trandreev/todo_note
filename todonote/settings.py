@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "django_filters",
     "users",
     "corsheaders",
     "todoapp",
@@ -137,3 +138,16 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # CORS_ORIGIN_ALLOW_ALL = True
+
+
+REST_FRAMEWORK = {
+    "DEFAULT_RENDER_CLASSES": [
+        "rest_framework.renders.JSONRenderer",
+        "rest_framework.renders.BrowsableAPIRenderer",
+    ],
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend"
+    ],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 100,
+}
