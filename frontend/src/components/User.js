@@ -20,7 +20,7 @@ const UserItem = ({user}) => {
 
 const UserList = ({users}) => {
     return (
-        <table>
+        <table className="table">
             <th>
                 First name
             </th>
