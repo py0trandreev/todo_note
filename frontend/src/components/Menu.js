@@ -1,17 +1,3 @@
-// import React from 'react'
-
-// const MenuList = () => {
-//     return (
-//         <div class="topnav">
-//         <a class="active" href="#users"> Users </a>
-//         <a href="#projects"> Projects </a>
-//         <a href="#todos"> TODOs</a>
-//         </div>
-//     )
-//  }
-
-// export default MenuList
-
 import React from 'react'
 import {
   Link
@@ -29,10 +15,6 @@ function NavbarItem({name, href}) {
 export default function Navbar({navbarItems}) {
     return (
         <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            {/* <a className="navbar-brand" href="#">Fixed navbar</a>
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-              <span className="navbar-toggler-icon"></span>
-            </button> */}
             <div className="collapse navbar-collapse" id="navbarCollapse">
               <ul className="navbar-nav mr-auto">
                 <li className="nav-item active">

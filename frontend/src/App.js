@@ -63,7 +63,7 @@ class App extends React.Component {
 
         axios.get(getUrl('/api/todos/'))
         .then(response => {
-            //console.log(`App.js(componentDidMount)************************************ ${JSON.stringify(response.data.results)}`)
+            //console.log(`App.js(componentDidMount)*********** ${JSON.stringify(response.data.results)}`)
             this.setState({todos: response.data.results})
         }).catch(error => console.log(error));
    }
@@ -88,16 +88,11 @@ class App extends React.Component {
                             </Route>
                             <Route path="/project/:id" children={<ProjectDetail getProject={(id) => this.getProject(id)} item={this.state.project} />} />
                         </Switch>
+                        <FooterItem></FooterItem>
                       </div>
                   </main>
            </Router>
 
-        // <div>
-        //   <MenuList />
-        //   <UserList users={this.state.users} />
-        //   <p></p>
-        //   <FooterItem />
-        // </div>
        )
    }
 }
