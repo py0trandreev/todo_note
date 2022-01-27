@@ -2,37 +2,37 @@ import React from 'react'
 
 
 
-const UserItem = ({user}) => {
+const TodoItem = ({todo}) => {
    return (
        <tr>
            <td>
-               {user.first_name}
+                {todo.id}
            </td>
            <td>
-               {user.last_name}
+                {todo.text}
            </td>
            <td>
-               {user.email}
+               {todo.created_at}
            </td>
        </tr>
-   )
+   );
 }
 
-const UserList = ({users}) => {
+const TodoList = ({items}) => {
     return (
         <table className="table">
             <th>
-                First name
+                Todo id
             </th>
             <th>
-                Last Name
+                Todo text 
             </th>
             <th>
-                E-mail
+                Created at
             </th>
-            {users.map((user) => <UserItem user={user} />)}
+            {items?.map((todo) => <TodoItem todo={todo} />)}
         </table>
     )
  }
 
- export default UserList
+ export default TodoList

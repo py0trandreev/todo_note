@@ -12,5 +12,7 @@ class ProjectSerializer(ModelSerializer):
 class TODOSerializer(ModelSerializer):
     class Meta:
         model = TODO
-        fields = "__all__"
+        # fields = "__all__"
         # exclude = ("is_active",)
+        fields = ["id", "text", "created_at"]
+
