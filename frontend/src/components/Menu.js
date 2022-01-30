@@ -1,31 +1,60 @@
-import React from 'react'
+import React, { useState } from 'react'
+
 import {
   Link
 } from "react-router-dom";
 
+let input_txt = '';
+function filter(){
+    alert(input_txt);
+}
+
+
+
+
 function NavbarItem({name, href}) {
     return (
-        <li className="nav-item">
-          <Link className="nav-link" to={href}>  {name}  </Link>
-        </li>
+        // <li className="nav-item">
+        <a className="navbar-item has-text-light">
+            <Link className="nav-link" to={href}>  {name}  </Link>
+        </a>
+                    // </li>
     )
 }
 
 
-export default function Navbar({navbarItems}) {
+export default function Navbar({ navbarItems }) {
+    const [title, setTitle] = useState('');
+
     return (
-        <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <div className="collapse navbar-collapse" id="navbarCollapse">
-              <ul className="navbar-nav mr-auto">
-                <li className="nav-item active">
-                  {navbarItems.map((item) => <NavbarItem name={item.name} href={item.href} />)}
-                </li>
-              </ul>
-              <form className="form-inline mt-2 mt-md-0">
-                <input className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
-                <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-              </form>
-            </div>
-          </nav>
+        <div>
+            <nav className="navbar is-light" role="navigation" aria-label="main navigation">
+                <div className="navbar-menu">
+                    <div className="navbar-start">
+                        { navbarItems.map((item) => <NavbarItem name={ item.name } href={ item.href }/>) }
+                    </div>
+
+                        <div className="navbar-end">
+
+                            <div className="navbar-item">
+                                <div className="field has-addons">
+                                    <div className="control">
+                                        <input className="input" type="text" value={ title }
+                                               onChange={ event => setTitle(event.target.value) } placeholder="Search"/>
+                                    </div>
+                                    <div className="control">
+                                        <div hidden> { input_txt = { title }.title }</div>
+                                        <a className="button is-info" onClick={ filter }>
+                                            Search
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                </div>
+            </nav>
+
+        </div>
     )
 }

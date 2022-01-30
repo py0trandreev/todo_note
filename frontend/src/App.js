@@ -4,7 +4,7 @@ import {
     Switch,
     Route,
   } from "react-router-dom";
-import logo from './logo.svg';
+import 'bulma/css/bulma.min.css';
 import './App.css';
 import UserList from './components/User.js'
 import MenuList from './components/Menu.js'
@@ -18,6 +18,7 @@ import axios from 'axios'
 const DOMAIN = 'http://127.0.0.1:8000'
 const getUrl = (endPoint) => `${DOMAIN}${endPoint}`
 
+
 class App extends React.Component {
     constructor(props) {
         super(props)
@@ -30,7 +31,8 @@ class App extends React.Component {
             users: [],
             projects: [],
             project: {},
-            todos: []
+            todos: [],
+
         }
 
 
@@ -38,11 +40,8 @@ class App extends React.Component {
 
 
     getProject(id) {
-        console.log('call')
-        console.log(getUrl(`/api/projects/${id}`))
         axios.get(getUrl(`/api/projects/${id}`))
         .then(response => {
-            console.log(response.data)
             this.setState({project: response.data})
         }).catch(error => console.log(error))
     }
@@ -51,7 +50,7 @@ class App extends React.Component {
     componentDidMount(){
         axios.get(getUrl('/api/users/'))
         .then(response => {
-            console.log(response.data)
+            console.log(`response.data ******* ${response.data}`)
             this.setState({users: response.data.results})
         }).catch(error => console.log(error));
 
@@ -63,7 +62,6 @@ class App extends React.Component {
 
         axios.get(getUrl('/api/todos/'))
         .then(response => {
-            //console.log(`App.js(componentDidMount)*********** ${JSON.stringify(response.data.results)}`)
             this.setState({todos: response.data.results})
         }).catch(error => console.log(error));
    }
@@ -86,7 +84,15 @@ class App extends React.Component {
                             <Route exact path='/todos'>
                                 <TodoList items={this.state.todos} />
                             </Route>
-                            <Route path="/project/:id" children={<ProjectDetail getProject={(id) => this.getProject(id)} item={this.state.project} />} />
+                            <Route path="/project/:id"
+                                   children={
+                                <ProjectDetail
+
+                                       getProject={(id) => this.getProject(id)}
+                                       item={this.state.project}
+                                /> }
+
+                            />
                         </Switch>
                         <FooterItem></FooterItem>
                       </div>

@@ -8,3 +8,10 @@ class UserModelSerializer(HyperlinkedModelSerializer):
         model = User
         # fields = '__all__'
         exclude = ("birthyear",)
+
+class UserMinModelSerializer(HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        # fields = '__all__'
+        fields = ("username", "email",)
+

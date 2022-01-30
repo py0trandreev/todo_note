@@ -21,16 +21,20 @@ const UserItem = ({user}) => {
 const UserList = ({users}) => {
     return (
         <table className="table">
-            <th>
-                First name
-            </th>
-            <th>
-                Last Name
-            </th>
-            <th>
-                E-mail
-            </th>
-            {users.map((user) => <UserItem user={user} />)}
+            <thead>
+                <th>
+                    First name
+                </th>
+                <th>
+                    Last Name
+                </th>
+                <th>
+                    E-mail
+                </th>
+            </thead>
+            <tbody>
+                {users.map((user) => <UserItem user={user} />)}
+            </tbody>
         </table>
     )
  }

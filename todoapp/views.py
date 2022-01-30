@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from todoapp.models import TODO, Project
-from todoapp.serializers import ProjectSerializer, TODOSerializer
+from todoapp.serializers import ProjectSerializer, TODOSerializer, ProjectReadSerializer
 
 
 class ProjectSetPagination(PageNumberPagination):
@@ -18,6 +18,11 @@ class ProjectModelViewSet(ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     pagination_class = ProjectSetPagination
+
+    def get_serializer_class(self):
+        if self.request.method in ['GET']:
+            return ProjectReadSerializer
+        return ProjectSerializer
 
     def get_queryset(self):
         name = self.request.query_params.get("name", "")
@@ -50,3 +55,10 @@ class TODOModelViewSet(ModelViewSet):
         if projid:
             TODOs = TODOs.filter(project_id=projid)
         return TODOs
+
+
+class TODODefaultModelViewSet(ModelViewSet):
+    queryset = TODO.objects.all()
+    serializer_class = TODOSerializer
+    pagination_class = TODOSetPagination
+
