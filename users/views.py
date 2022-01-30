@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from rest_framework import mixins
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import BrowsableAPIRenderer, JSONRenderer
 
 # Create your views here.
@@ -18,3 +20,6 @@ class UserCustomViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins
     queryset = User.objects.all()
     serializer_class = UserModelSerializer
     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
+
+
+
