@@ -48,6 +48,7 @@ const ProjectDetail = ({getProject, item}) => {
     getProject( id )
     let users = item.users ? item.users : []
 
+
     return (
         <div>
             <h1>{item.name}</h1>

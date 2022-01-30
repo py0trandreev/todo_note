@@ -18,7 +18,6 @@ import axios from 'axios'
 const DOMAIN = 'http://127.0.0.1:8000'
 const getUrl = (endPoint) => `${DOMAIN}${endPoint}`
 
-
 class App extends React.Component {
     constructor(props) {
         super(props)
@@ -31,6 +30,7 @@ class App extends React.Component {
             users: [],
             projects: [],
             project: {},
+
             todos: [],
 
         }
