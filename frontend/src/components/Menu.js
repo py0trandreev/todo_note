@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-
 import {
   Link
 } from "react-router-dom";
@@ -14,43 +13,39 @@ function filter(){
 
 function NavbarItem({name, href}) {
     return (
-        // <li className="nav-item">
 
         <a className="navbar-item has-text-light">
             <Link className="nav-link" to={href}>  {name}  </Link>
         </a>
-
-        // name !== "Login" ?
-        // :
-        //
-        // <a className="navbar-item has-text-light">
-        //     {/*<Link className="nav-link" to={href}>  {name}  </Link>*/}
-        //     {/*{isAuthenticated ? name = "Logout" : name}*/}
-        //     <div hidden>{isAuthenticated ? name = "Logout" : name = "Login"}</div>
-        //     <div hidden>{console.log("*-*-*-*-" + isAuthenticated)}</div>
-        //     <Link className="nav-link" to={href}>{name}</Link>
-        //
-        // </a>
-          //// {isAuthenticated ? <button onClick={()=>this.logout()}>Logout</button> : <Link to='/login'>Login</Link>}
-                    // </li>
     )
 }
 
 
-export default function Navbar({navbarItems, isLogedIn, logOut}) {
-    const [title, setTitle] = useState('');
+
+class Navbar extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            fieldValue:'',
+        };
+    };
+
+    print =()=>{
+        console.log(this.props);
+    }
+
+    changeTitle = (e) => {
+        this.setState({fieldValue: e.target.value});
+    }
 
 
-
-    console.log(isLogedIn)
-    return (
+    render() {
+     return (
         <div>
             <nav className="navbar is-light" role="navigation" aria-label="main navigation">
                 <div className="navbar-menu">
                     <div className="navbar-start">
-                        {navbarItems.map((item) => <NavbarItem name={item.name} href={item.href}/>)}
-                        <Link to='/login'>Login</Link>
-                        <button onClick={()=>this.logout()}>Logout</button>
+                        {this.props.navbarItems.map((item) => <NavbarItem name={item.name} href={item.href}/>)}
 
                     </div>
 
@@ -59,11 +54,12 @@ export default function Navbar({navbarItems, isLogedIn, logOut}) {
                             <div className="navbar-item">
                                 <div className="field has-addons">
                                     <div className="control">
-                                        <input className="input" type="text" value={ title }
-                                               onChange={ event => setTitle(event.target.value) } placeholder="Search"/>
+                                        <input className="input" type="text" value={ this.state.fieldValue }
+                                               onChange={ this.changeTitle } placeholder="Search"/>
+
                                     </div>
                                     <div className="control">
-                                        <div hidden> { input_txt = { title }.title }</div>
+                                        <div hidden> { input_txt = this.state.fieldValue }</div>
                                         <a className="button is-info" onClick={ filter }>
                                             Search
                                         </a>
@@ -76,5 +72,7 @@ export default function Navbar({navbarItems, isLogedIn, logOut}) {
             </nav>
 
         </div>
-    )
+    )}
 }
+
+export default Navbar

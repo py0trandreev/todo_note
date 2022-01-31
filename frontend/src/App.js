@@ -2,8 +2,8 @@ import React from 'react';
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
-  } from "react-router-dom";
+    Route, Link,
+} from "react-router-dom";
 import 'bulma/css/bulma.min.css';
 import './App.css';
 import UserList from './components/User.js'
@@ -41,7 +41,7 @@ class App extends React.Component {
             project: {},
             todos: [],
             'token': '',
-        }
+           }
     }
 
 
@@ -108,7 +108,8 @@ class App extends React.Component {
        return (
            <Router>
                <header>
-                    <Navbar navbarItems={this.state.navbarItems} isLogedIn={this.is_authenticated()} logOut={this.logout}/>
+                    <Navbar navbarItems={this.state.navbarItems}  />
+                   {this.is_authenticated() ? <button onClick={()=>this.logout()}>Logout</button> : <Link to='/login'>Login</Link>}
                </header>
                <main role="main" className="flex-shrink-0">
                       <div className="container">
