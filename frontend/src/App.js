@@ -46,9 +46,9 @@ class App extends React.Component {
 
 
     set_token(token) {
-        const cookies = new Cookies();
-        cookies.set('token', token);
-        this.setState({'token': token});
+        const cookies = new Cookies()
+        cookies.set('token', token)
+        this.setState({'token': token}, ()=>this.load_data())
     }
 
     is_authenticated() {
@@ -60,9 +60,9 @@ class App extends React.Component {
     }
 
     get_token_from_storage() {
-        const cookies = new Cookies();
-        const token = cookies.get('token');
-        this.setState({'token': token});
+        const cookies = new Cookies()
+        const token = cookies.get('token')
+        this.setState({'token': token}, ()=>this.load_data())
     }
 
     get_token(username, password) {
@@ -73,22 +73,40 @@ class App extends React.Component {
             }).catch(error => alert('Неверный логин или пароль'));
     }
 
+    get_headers() {
+        let headers = {
+            'Content-Type': 'application/json'
+        }
+        if (this.is_authenticated())
+        {
+            headers['Authorization'] = 'Token ' + this.state.token
+        }
+        return headers
+    }
+
    load_data() {
-        axios.get(getUrl('/api/users/'))
+        const headers = this.get_headers();
+        axios.get(getUrl('/api/users/'),{headers})
             .then(response => {
                 console.log(`response.data ******* ${response.data}`);
                 this.setState({users: response.data.results});
-            }).catch(error => console.log(error));
+            }).catch(error => console.log(error)
 
-        axios.get(getUrl('/api/projects/'))
+        );
+
+        axios.get(getUrl('/api/projects/'),{headers})
             .then(response => {
                 this.setState({projects: response.data.results})
             }).catch(error => console.log(error));
 
-        axios.get(getUrl('/api/todos/'))
+        axios.get(getUrl('/api/todos/'),{headers})
             .then(response => {
                 this.setState({todos: response.data.results})
-            }).catch(error => console.log(error));
+            }).catch(error => {
+                console.log(error);
+                this.setState({users: []});
+
+            });
     }
 
     getProject(id) {
@@ -100,7 +118,6 @@ class App extends React.Component {
 
     componentDidMount(){
         this.get_token_from_storage();
-        this.load_data();
    }
 
    render () {
