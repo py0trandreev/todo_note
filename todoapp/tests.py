@@ -21,7 +21,6 @@ class TestProjectViewSet(APITestCase):
         response = self.client.put(f'/api/projects/{project.id}/', {'name': 'Проект совершенно секретно',
                                                                     'repository': 'http://repo.com/',
                                                                     'users':[user.uuid]})
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         project = Project.objects.get(id=project.id)
         self.assertEqual(project.name, 'Проект совершенно секретно')
