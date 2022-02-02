@@ -125,8 +125,10 @@ class App extends React.Component {
        return (
            <Router>
                <header>
+                   <div>
                     <Navbar navbarItems={this.state.navbarItems}  />
-                   {this.is_authenticated() ? <button onClick={()=>this.logout()}>Logout</button> : <Link to='/login'>Login</Link>}
+                    {this.is_authenticated() ? <button onClick={()=>this.logout()}>Logout</button> : <Link to='/login'>Login</Link>}
+                   </div>
                </header>
                <main role="main" className="flex-shrink-0">
                       <div className="container">
