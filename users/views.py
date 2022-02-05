@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from icecream import ic
 from rest_framework import mixins, permissions, generics
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -35,7 +34,7 @@ class UserListAPIView(generics.ListAPIView):
     serializer_class = UserModelSerializer
 
     def get_serializer_class(self):
-        ic(self.request.version)
+        #ic(self.request.version)
         if self.request.version == '2.0':
             return UserModelSerializer2_0
 

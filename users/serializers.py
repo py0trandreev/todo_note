@@ -7,7 +7,7 @@ class UserHLModelSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = User
         # fields = '__all__'
-        exclude = ("birthyear",)
+        exclude = ("birthyear", "is_superuser", "is_staff")
 
 class UserMinHLModelSerializer(HyperlinkedModelSerializer):
     class Meta:
@@ -19,10 +19,9 @@ class UserMinHLModelSerializer(HyperlinkedModelSerializer):
 class UserModelSerializer(ModelSerializer):
     class Meta:
         model = User
-        exclude = ("birthyear",)
+        exclude = ("birthyear", "is_superuser", "is_staff")
 
 class UserModelSerializer2_0(ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
-        # exclude = ("birthyear",)
+        exclude = ("birthyear",)
