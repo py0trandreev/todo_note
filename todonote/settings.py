@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "graphene_django",
     "rest_framework",
     "django_filters",
     'drf_yasg',
@@ -164,5 +165,7 @@ REST_FRAMEWORK = {
 
 }
 
-
+GRAPHENE = {
+    "SCHEMA": "todonote.schema.schema"
+}
 
