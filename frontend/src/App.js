@@ -2,8 +2,9 @@ import React from 'react';
 import {
     BrowserRouter as Router,
     Switch,
-    Route, Link,
+    Route, Link, Redirect,
 } from "react-router-dom";
+
 import 'bulma/css/bulma.min.css';
 import './App.css';
 import UserList from './components/User.js'
@@ -15,6 +16,9 @@ import FooterItem from './components/Footer.js'
 import axios from 'axios'
 import LoginForm from './components/Auth.js'
 import Cookies from 'universal-cookie';
+import ProjectForm from "./components/ProjectForm";
+
+
 
 const DOMAIN = 'http://127.0.0.1:8000'
 const getUrl = (endPoint) => `${DOMAIN}${endPoint}`
@@ -79,7 +83,7 @@ class App extends React.Component {
         }
         if (this.is_authenticated())
         {
-            headers['Authorization'] = 'Token ' + this.state.token
+            headers['Authorization'] = 'token ' + this.state.token
         }
         return headers
     }
@@ -116,6 +120,14 @@ class App extends React.Component {
         }).catch(error => console.log(error));
     }
 
+    deleteProject(id) {
+        const headers = this.get_headers()
+        axios.delete(getUrl(`/api/projects/${ id }`), { headers })
+            .then(response => {
+                this.setState({ projects: this.state.projects.filter((item) => item.id !== id) })
+            }).catch(error => console.log(error))
+    }
+
     componentDidMount(){
         this.get_token_from_storage();
    }
@@ -136,12 +148,16 @@ class App extends React.Component {
                             <Route exact path={["/", "/users"]}>
                                 <UserList users={this.state.users} />
                             </Route>
+
+                            <Route exact path='/projects/create' component={() => <ProjectForm />}  />
                             <Route exact path='/projects'>
-                                <ProjectList items={this.state.projects} />
+                                <ProjectList items={this.state.projects} deleteProject={(id)=>this.deleteProject(id)}/>
                             </Route>
+
                             <Route exact path='/todos'>
                                 <TodoList items={this.state.todos} />
                             </Route>
+
                             <Route exact path='/login'
                                    component={
                                        () => <LoginForm get_token={
