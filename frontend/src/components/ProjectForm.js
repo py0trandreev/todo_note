@@ -1,5 +1,5 @@
 import React from 'react'
-
+// import 'bulma/css/bulma.min.css';
 
 class ProjectForm extends React.Component {
     constructor(props) {
@@ -43,31 +43,46 @@ class ProjectForm extends React.Component {
     render() {
         return (
             <form onSubmit={ (event) => this.handleSubmit(event) }>
-                <div className="form-group">
-                    <label for="name">name</label>
-                    <input type="text" className="form-control" name="name" value={ this.state.name }
-                           onChange={ (event) => this.handleChange(event) }/>
-                </div>
+                <div className="field">
+                    <div className="form-group">
 
-                <div className="form-group">
-                    <label for="repository">repository</label>
-                    <input type="text" className="form-control" name="repository" value={ this.state.repository }
-                           onChange={ (event) => this.handleChange(event) }/>
-                </div>
-
-                <div className="form-group" >
-                    <label for="users">users</label>
-                    <div className="select is-multiple">
-                        <select className="form-control"
-                                name="users" id="users"
-                                onChange={ (event) => this.handleSelected(event) }
-                                multiple>
-                            { console.log("****************999**********************" + JSON.stringify(this.props.users)) }
-                            { this.props.users.map((item) => <option value={ item.uuid }>{ item.username }</option>) }
-                        </select>
+                        <label for="name">name</label>
+                        <div className="control">
+                            <input type="text" className="form-control input is-info" name="name"
+                                   value={ this.state.name }
+                                   onChange={ (event) => this.handleChange(event) }/>
+                        </div>
                     </div>
                 </div>
-                <input type="submit" className="btn btn-primary" value="Save"/>
+
+                <div className="field">
+                    <div className="form-group">
+                        <label for="repository">repository</label>
+                        <input type="text" className="form-control  input is-info" name="repository"
+                               value={ this.state.repository }
+                               onChange={ (event) => this.handleChange(event) }/>
+                    </div>
+                </div>
+
+                <div className="field">
+                    <div className="form-group">
+                        <label for="users">users</label>
+                        <div className="control">
+                            <div className="select is-multiple is-info">
+                                <select className="form-control"
+                                        name="users" id="users"
+                                        onChange={ (event) => this.handleSelected(event) }
+                                        multiple>
+                                    { console.log("****************999**********************" + JSON.stringify(this.props.users)) }
+                                    { this.props.users.map((item) => <option
+                                        value={ item.uuid }>{ item.username }</option>) }
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <input type="submit" className="button is-success" value="Save"/>
             </form>
         );
     }

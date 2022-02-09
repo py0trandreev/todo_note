@@ -30,7 +30,7 @@ const ProjectList = ({items, deleteProject}) => {
                 <th></th>
             </tr>
             {items.map((item) => <ProjectListItem key={item.id} item={item} deleteProject={deleteProject} />)}
-            <Link to='/projects/create'>Create</Link>
+            <Link to='/projects/create' className="button is-info">Create</Link>
         </table>
     )
 }

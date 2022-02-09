@@ -173,8 +173,16 @@ class App extends React.Component {
            <Router>
                <header>
                    <div>
-                    <Navbar navbarItems={this.state.navbarItems}  />
-                    {this.is_authenticated() ? <button onClick={()=>this.logout()}>Logout</button> : <Link to='/login'>Login</Link>}
+                       <Navbar navbarItems={ this.state.navbarItems }/>
+                       { this.is_authenticated() ?
+                           <button
+                               onClick={ () => this.logout() }
+                               className="button is-dark"
+                           >Logout</button> :
+                           <Link
+                               to='/login'
+                               className="button is-primary"
+                           >Login</Link> }
                    </div>
                </header>
                <main role="main" className="flex-shrink-0">
@@ -218,8 +226,9 @@ class App extends React.Component {
                             />
                             <Route component={NotFound404} />
                         </Switch>
-                        <p></p>
+
                         <FooterItem></FooterItem>
+
                       </div>
                   </main>
            </Router>

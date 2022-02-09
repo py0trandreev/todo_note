@@ -41,7 +41,7 @@ const TodoList = ({items, deleteTodo}) => {
             </th>
             <th></th>
             {items?.map((todo) => <TodoItem todo={todo} key={todo.id} deleteTodo={deleteTodo}/>)}
-            <Link to='/todos/create'>Create</Link>
+            <Link to='/todos/create' className="button is-info">Create</Link>
         </table>
     )
  }
