@@ -9,11 +9,11 @@ class UserHLModelSerializer(HyperlinkedModelSerializer):
         # fields = '__all__'
         exclude = ("birthyear", "is_superuser", "is_staff")
 
-class UserMinHLModelSerializer(HyperlinkedModelSerializer):
+class UserMinModelSerializer(ModelSerializer):
     class Meta:
         model = User
         # fields = '__all__'
-        fields = ("username", "email",)
+        fields = ("uuid", "username", "email",)
 
 
 class UserModelSerializer(ModelSerializer):

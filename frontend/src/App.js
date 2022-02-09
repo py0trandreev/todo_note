@@ -17,6 +17,7 @@ import axios from 'axios'
 import LoginForm from './components/Auth.js'
 import Cookies from 'universal-cookie';
 import ProjectForm from "./components/ProjectForm";
+import TodoForm from "./components/TodoForm";
 
 
 
@@ -128,6 +129,40 @@ class App extends React.Component {
             }).catch(error => console.log(error))
     }
 
+    createProject(name, repository, users) {
+        const headers = this.get_headers()
+        const data = { name: name, repository: repository, users: users }
+        axios.post(getUrl('/api/projects/'), data, { headers })
+            .then(response => {
+                let new_project = response.data
+                const users = this.state.users.filter((item) => item.id === new_project.users)[0]
+                new_project.users = users
+                this.setState({ projects: [...this.state.projects, new_project] })
+            }).catch(error => console.log(error))
+    }
+
+    deleteTODO(id) {
+        const headers = this.get_headers()
+        axios.delete(getUrl(`/api/todos/${ id }`), { headers })
+            .then(response => {
+                this.setState({ todos: this.state.todos.filter((item) => item.id !== id) })
+            }).catch(error => console.log(error))
+    }
+
+    createTODO(project, text, user) {
+        const headers = this.get_headers()
+        const data = { project: project, text: text, user: user }
+        axios.post(getUrl('/api/todos/'), data, { headers })
+            .then(response => {
+                let new_todo = response.data
+                const project = this.state.projects.filter((item) => item.id === project.id)[0]
+                const user = this.state.users.filter((item) => item.uuid === user.uuid)[0]
+                new_todo.project = project
+                new_todo.user = user
+                this.setState({ todos: [...this.state.todos, new_todo] })
+            }).catch(error => console.log(error))
+    }
+
     componentDidMount(){
         this.get_token_from_storage();
    }
@@ -147,15 +182,22 @@ class App extends React.Component {
                         <Switch>
                             <Route exact path={["/", "/users"]}>
                                 <UserList users={this.state.users} />
-                            </Route>
+                            </Route>  )
 
-                            <Route exact path='/projects/create' component={() => <ProjectForm />}  />
+                            <Route exact path='/projects/create' component={() => <ProjectForm users={this.state.users} createProject={(name, repository, users)=>this.createProject(name, repository, users)}/>}  />
                             <Route exact path='/projects'>
                                 <ProjectList items={this.state.projects} deleteProject={(id)=>this.deleteProject(id)}/>
                             </Route>
 
+                            <Route exact path='/todos/create' component={() =>
+                                <TodoForm
+                                    users={this.state.users}
+                                    projects={this.state.projects}
+                                    createTodo={(project, text, user)=>this.createTODO(project, text, user)}
+                                />}
+                            />
                             <Route exact path='/todos'>
-                                <TodoList items={this.state.todos} />
+                                <TodoList items={this.state.todos} deleteTodo={(id)=>this.deleteTODO(id)}/>
                             </Route>
 
                             <Route exact path='/login'

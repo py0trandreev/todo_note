@@ -8,7 +8,7 @@ class ProjectForm extends React.Component {
       this.state = {
           name: '',
           repository: '',
-          users:0,
+          users:[],
       }
     }
 
@@ -17,6 +17,16 @@ class ProjectForm extends React.Component {
         this.setState(
                 {
                     [event.target.name]: event.target.value
+
+                }
+            );
+    }
+
+    handleSelected(event)
+    {
+        this.setState(
+                {
+                     users: [...event.target.selectedOptions].map(opt=>opt.value)
                 }
             );
     }
@@ -25,6 +35,8 @@ class ProjectForm extends React.Component {
       console.log(this.state.name)
       console.log(this.state.repository)
       console.log(this.state.users)
+
+      this.props.createProject(this.state.name, this.state.repository, this.state.users)
       event.preventDefault()
     }
 
@@ -43,10 +55,17 @@ class ProjectForm extends React.Component {
                            onChange={ (event) => this.handleChange(event) }/>
                 </div>
 
-                <div className="form-group">
+                <div className="form-group" >
                     <label for="users">users</label>
-                    <input type="number" className="form-control" name="users" value={ this.state.users }
-                           onChange={ (event) => this.handleChange(event) }/>
+                    <div className="select is-multiple">
+                        <select className="form-control"
+                                name="users" id="users"
+                                onChange={ (event) => this.handleSelected(event) }
+                                multiple>
+                            { console.log("****************999**********************" + JSON.stringify(this.props.users)) }
+                            { this.props.users.map((item) => <option value={ item.uuid }>{ item.username }</option>) }
+                        </select>
+                    </div>
                 </div>
                 <input type="submit" className="btn btn-primary" value="Save"/>
             </form>
