@@ -18,7 +18,7 @@ const ProjectListItem = ({item, deleteProject}) => {
     )
 }
 
-const ProjectList = ({items, deleteProject}) => {
+const ProjectList = ({items, projectSubstr,deleteProject}) => {
     //console.log(users)
     return (
         <table className="table">
@@ -29,7 +29,15 @@ const ProjectList = ({items, deleteProject}) => {
                 <th></th>
                 <th></th>
             </tr>
-            {items.map((item) => <ProjectListItem key={item.id} item={item} deleteProject={deleteProject} />)}
+            {/*Filter by name */}
+            { items.map((item) => {
+                console.log(item)
+                if (!projectSubstr || item.name.includes(projectSubstr)) {
+                    return (
+                        <ProjectListItem key={ item.id } item={ item } deleteProject={ deleteProject }/>
+                    )}
+                }
+            )}
             <Link to='/projects/create' className="button is-info">Create</Link>
         </table>
     )

@@ -46,6 +46,7 @@ class App extends React.Component {
             project: {},
             todos: [],
             'token': '',
+            projSearch: '',
            }
     }
 
@@ -163,6 +164,10 @@ class App extends React.Component {
             }).catch(error => console.log(error))
     }
 
+    setProjSearch(substr){
+        this.setState({projSearch:substr})
+    }
+
     componentDidMount(){
         this.get_token_from_storage();
    }
@@ -173,7 +178,7 @@ class App extends React.Component {
            <Router>
                <header>
                    <div>
-                       <Navbar navbarItems={ this.state.navbarItems }/>
+                       <Navbar navbarItems={ this.state.navbarItems } setProjSearch={(substr)=>this.setProjSearch(substr)}/>
                        { this.is_authenticated() ?
                            <button
                                onClick={ () => this.logout() }
@@ -194,7 +199,7 @@ class App extends React.Component {
 
                             <Route exact path='/projects/create' component={() => <ProjectForm users={this.state.users} createProject={(name, repository, users)=>this.createProject(name, repository, users)}/>}  />
                             <Route exact path='/projects'>
-                                <ProjectList items={this.state.projects} deleteProject={(id)=>this.deleteProject(id)}/>
+                                <ProjectList items={this.state.projects} projectSubstr={this.state.projSearch} deleteProject={(id)=>this.deleteProject(id)}/>
                             </Route>
 
                             <Route exact path='/todos/create' component={() =>
