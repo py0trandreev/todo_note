@@ -24,6 +24,7 @@ import TodoForm from "./components/TodoForm";
 const DOMAIN = 'http://127.0.0.1:8000'
 const getUrl = (endPoint) => `${DOMAIN}${endPoint}`
 
+
 const NotFound404 = ({ location }) => {
   return (
     <div>
@@ -44,6 +45,7 @@ class App extends React.Component {
             users: [],
             projects: [],
             project: {},
+
             todos: [],
             'token': '',
             projSearch: '',

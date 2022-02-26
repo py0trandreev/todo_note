@@ -13,7 +13,6 @@ function filter(){
 
 function NavbarItem({name, href}) {
     return (
-
         <a className="navbar-item has-text-light">
             <Link className="nav-link" to={href}>  {name}  </Link>
         </a>

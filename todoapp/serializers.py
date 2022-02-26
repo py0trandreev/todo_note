@@ -23,4 +23,3 @@ class TODOSerializer(ModelSerializer):
         fields = "__all__"
         # exclude = ("is_active",)
         # fields = ["id", "text", "created_at", "project_id"]
-
