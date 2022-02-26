@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 
-from users.serializers import UserModelSerializer, UserMinModelSerializer
+from users.serializers import UserHLModelSerializer, UserMinModelSerializer
 from .models import TODO, Project
 
 

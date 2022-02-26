@@ -31,7 +31,7 @@ class Navbar extends React.Component {
     };
 
     print =()=>{
-        console.log(this.props);
+        console.log("*****////////" + this.props);
     }
 
     changeTitle = (e) => {
@@ -56,11 +56,12 @@ class Navbar extends React.Component {
                                     <div className="control">
                                         <input className="input" type="text" value={ this.state.fieldValue }
                                                onChange={ this.changeTitle } placeholder="Search"/>
+                                        {/*console.log(this.state.fieldValue)*/}
 
                                     </div>
                                     <div className="control">
-                                        <div hidden> { input_txt = this.state.fieldValue }</div>
-                                        <a className="button is-info" onClick={ filter }>
+                                        {/*<div hidden> { input_txt = this.state.fieldValue }</div>*/}
+                                        <a className="button is-info" onClick={()=>this.props.setProjSearch(this.state.fieldValue) }>
                                             Search
                                         </a>
                                     </div>
