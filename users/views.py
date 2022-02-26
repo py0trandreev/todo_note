@@ -8,7 +8,7 @@ from rest_framework.renderers import BrowsableAPIRenderer, JSONRenderer
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
 from .models import User
-from .serializers import UserHLModelSerializer, UserMinHLModelSerializer, UserModelSerializer, UserModelSerializer2_0
+from .serializers import UserHLModelSerializer, UserMinModelSerializer, UserModelSerializer, UserModelSerializer2_0
 
 
 class UserModelViewSet(ModelViewSet):
@@ -20,13 +20,13 @@ class UserModelViewSet(ModelViewSet):
 class UserCustomViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, GenericViewSet):
     # permission_classes = [permissions.IsAuthenticated]
     queryset = User.objects.all()
-    serializer_class = UserHLModelSerializer
+    serializer_class = UserModelSerializer
     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
 
 
 class UserMinModelViewSet(ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserMinHLModelSerializer
+    serializer_class = UserMinModelSerializer
 
 
 class UserListAPIView(generics.ListAPIView):

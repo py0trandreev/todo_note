@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 
 
-const ProjectListItem = ({item}) => {
+const ProjectListItem = ({item, deleteProject}) => {
     let link_to = `/project/${item.id}`
     return (
         <tr>
@@ -13,11 +13,12 @@ const ProjectListItem = ({item}) => {
             <td>{item.name}</td>
             <td>{item.repository}</td>
             <td><Link to={link_to}>Detail</Link></td>
+            <td><button onClick={()=>deleteProject(item.id)} type="button" className="button is-danger is-small is-rounded">Delete</button></td>
         </tr>
     )
 }
 
-const ProjectList = ({items}) => {
+const ProjectList = ({items, projectSubstr,deleteProject}) => {
     //console.log(users)
     return (
         <table className="table">
@@ -26,8 +27,18 @@ const ProjectList = ({items}) => {
                 <th>Name</th>
                 <th>Repository</th>
                 <th></th>
+                <th></th>
             </tr>
-            {items.map((item) => <ProjectListItem item={item} />)}
+            {/*Filter by name */}
+            { items.map((item) => {
+                console.log(item)
+                if (!projectSubstr || item.name.includes(projectSubstr)) {
+                    return (
+                        <ProjectListItem key={ item.id } item={ item } deleteProject={ deleteProject }/>
+                    )}
+                }
+            )}
+            <Link to='/projects/create' className="button is-info">Create</Link>
         </table>
     )
 }

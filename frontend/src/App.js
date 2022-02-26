@@ -2,8 +2,9 @@ import React from 'react';
 import {
     BrowserRouter as Router,
     Switch,
-    Route, Link,
+    Route, Link, Redirect,
 } from "react-router-dom";
+
 import 'bulma/css/bulma.min.css';
 import './App.css';
 import UserList from './components/User.js'
@@ -15,6 +16,10 @@ import FooterItem from './components/Footer.js'
 import axios from 'axios'
 import LoginForm from './components/Auth.js'
 import Cookies from 'universal-cookie';
+import ProjectForm from "./components/ProjectForm";
+import TodoForm from "./components/TodoForm";
+
+
 
 const DOMAIN = 'http://127.0.0.1:8000'
 const getUrl = (endPoint) => `${DOMAIN}${endPoint}`
@@ -41,6 +46,7 @@ class App extends React.Component {
             project: {},
             todos: [],
             'token': '',
+            projSearch: '',
            }
     }
 
@@ -79,7 +85,7 @@ class App extends React.Component {
         }
         if (this.is_authenticated())
         {
-            headers['Authorization'] = 'Token ' + this.state.token
+            headers['Authorization'] = 'token ' + this.state.token
         }
         return headers
     }
@@ -116,6 +122,52 @@ class App extends React.Component {
         }).catch(error => console.log(error));
     }
 
+    deleteProject(id) {
+        const headers = this.get_headers()
+        axios.delete(getUrl(`/api/projects/${ id }`), { headers })
+            .then(response => {
+                this.setState({ projects: this.state.projects.filter((item) => item.id !== id) })
+            }).catch(error => console.log(error))
+    }
+
+    createProject(name, repository, users) {
+        const headers = this.get_headers()
+        const data = { name: name, repository: repository, users: users }
+        axios.post(getUrl('/api/projects/'), data, { headers })
+            .then(response => {
+                let new_project = response.data
+                const users = this.state.users.filter((item) => item.id === new_project.users)[0]
+                new_project.users = users
+                this.setState({ projects: [...this.state.projects, new_project] })
+            }).catch(error => console.log(error))
+    }
+
+    deleteTODO(id) {
+        const headers = this.get_headers()
+        axios.delete(getUrl(`/api/todos/${ id }`), { headers })
+            .then(response => {
+                this.setState({ todos: this.state.todos.filter((item) => item.id !== id) })
+            }).catch(error => console.log(error))
+    }
+
+    createTODO(project, text, user) {
+        const headers = this.get_headers()
+        const data = { project: project, text: text, user: user }
+        axios.post(getUrl('/api/todos/'), data, { headers })
+            .then(response => {
+                let new_todo = response.data
+                const project = this.state.projects.filter((item) => item.id === project.id)[0]
+                const user = this.state.users.filter((item) => item.uuid === user.uuid)[0]
+                new_todo.project = project
+                new_todo.user = user
+                this.setState({ todos: [...this.state.todos, new_todo] })
+            }).catch(error => console.log(error))
+    }
+
+    setProjSearch(substr){
+        this.setState({projSearch:substr})
+    }
+
     componentDidMount(){
         this.get_token_from_storage();
    }
@@ -126,8 +178,16 @@ class App extends React.Component {
            <Router>
                <header>
                    <div>
-                    <Navbar navbarItems={this.state.navbarItems}  />
-                    {this.is_authenticated() ? <button onClick={()=>this.logout()}>Logout</button> : <Link to='/login'>Login</Link>}
+                       <Navbar navbarItems={ this.state.navbarItems } setProjSearch={(substr)=>this.setProjSearch(substr)}/>
+                       { this.is_authenticated() ?
+                           <button
+                               onClick={ () => this.logout() }
+                               className="button is-dark"
+                           >Logout</button> :
+                           <Link
+                               to='/login'
+                               className="button is-primary"
+                           >Login</Link> }
                    </div>
                </header>
                <main role="main" className="flex-shrink-0">
@@ -135,13 +195,24 @@ class App extends React.Component {
                         <Switch>
                             <Route exact path={["/", "/users"]}>
                                 <UserList users={this.state.users} />
-                            </Route>
+                            </Route>  )
+
+                            <Route exact path='/projects/create' component={() => <ProjectForm users={this.state.users} createProject={(name, repository, users)=>this.createProject(name, repository, users)}/>}  />
                             <Route exact path='/projects'>
-                                <ProjectList items={this.state.projects} />
+                                <ProjectList items={this.state.projects} projectSubstr={this.state.projSearch} deleteProject={(id)=>this.deleteProject(id)}/>
                             </Route>
+
+                            <Route exact path='/todos/create' component={() =>
+                                <TodoForm
+                                    users={this.state.users}
+                                    projects={this.state.projects}
+                                    createTodo={(project, text, user)=>this.createTODO(project, text, user)}
+                                />}
+                            />
                             <Route exact path='/todos'>
-                                <TodoList items={this.state.todos} />
+                                <TodoList items={this.state.todos} deleteTodo={(id)=>this.deleteTODO(id)}/>
                             </Route>
+
                             <Route exact path='/login'
                                    component={
                                        () => <LoginForm get_token={
@@ -160,8 +231,9 @@ class App extends React.Component {
                             />
                             <Route component={NotFound404} />
                         </Switch>
-                        <p></p>
+
                         <FooterItem></FooterItem>
+
                       </div>
                   </main>
            </Router>

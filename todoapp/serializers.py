@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 
-from users.serializers import UserHLModelSerializer, UserMinHLModelSerializer
+from users.serializers import UserHLModelSerializer, UserMinModelSerializer
 from .models import TODO, Project
 
 
@@ -10,7 +10,7 @@ class ProjectSerializer(ModelSerializer):
         fields = "__all__"
 
 class ProjectReadSerializer(ModelSerializer):
-    users = UserMinHLModelSerializer(many=True, read_only=True)
+    users = UserMinModelSerializer(many=True, read_only=True)
 
     class Meta:
         model = Project
