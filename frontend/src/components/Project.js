@@ -1,42 +1,3 @@
-// import React from 'react'
-
-
-
-// const ProjectItem = ({project}) => {
-//    return (
-//        <tr>
-//            <td>
-//                {project.name}
-//            </td>
-//            <td>
-//                {project.repository}
-//            </td>
-//            <td>
-//                {project.users}
-//            </td>
-//        </tr>
-//    )
-// }
-
-// const ProjectList = ({projects}) => {
-//     return (
-//         <table>
-//             <th>
-//                 Project name
-//             </th>
-//             <th>
-//                 Repository
-//             </th>
-//             <th>
-//                 Users
-//             </th>
-//             {projects.map((project) => <ProjectItem project={project} />)}
-//         </table>
-//     )
-//  }
-
-//  export default ProjectList
-
 import React from 'react'
 import {
   Link,
@@ -44,7 +5,7 @@ import {
 } from "react-router-dom";
 
 
-const ProjectListItem = ({item}) => {
+const ProjectListItem = ({item, deleteProject}) => {
     let link_to = `/project/${item.id}`
     return (
         <tr>
@@ -52,11 +13,12 @@ const ProjectListItem = ({item}) => {
             <td>{item.name}</td>
             <td>{item.repository}</td>
             <td><Link to={link_to}>Detail</Link></td>
+            <td><button onClick={()=>deleteProject(item.id)} type="button" className="button is-danger is-small is-rounded">Delete</button></td>
         </tr>
     )
 }
 
-const ProjectList = ({items}) => {
+const ProjectList = ({items, projectSubstr,deleteProject}) => {
     //console.log(users)
     return (
         <table className="table">
@@ -65,8 +27,18 @@ const ProjectList = ({items}) => {
                 <th>Name</th>
                 <th>Repository</th>
                 <th></th>
+                <th></th>
             </tr>
-            {items.map((item) => <ProjectListItem item={item} />)}
+            {/*Filter by name */}
+            { items.map((item) => {
+                console.log(item)
+                if (!projectSubstr || item.name.includes(projectSubstr)) {
+                    return (
+                        <ProjectListItem key={ item.id } item={ item } deleteProject={ deleteProject }/>
+                    )}
+                }
+            )}
+            <Link to='/projects/create' className="button is-info">Create</Link>
         </table>
     )
 }
@@ -74,17 +46,20 @@ const ProjectList = ({items}) => {
 const ProjectUserItem = ({item}) => {
     return (
     <li>
-        {item}
+        {item.username} ({item.email})
     </li>
-    //{item.username} ({item.email})
     )
 }
 
 const ProjectDetail = ({getProject, item}) => {
+
+    console.log(`getProject ${getProject}` )
     let { id } = useParams();
-    getProject(id)
+
+    getProject( id )
     let users = item.users ? item.users : []
-    console.log(id)
+
+
     return (
         <div>
             <h1>{item.name}</h1>
@@ -92,8 +67,7 @@ const ProjectDetail = ({getProject, item}) => {
             <p></p>
             Users:
             <ol>
-            {/* { console.log(`ProjectDetail **************************${JSON.stringify(item)}`) } */}
-            {users?.map((user) => <ProjectUserItem item={user} />)}
+                 {users?.map((user) => <ProjectUserItem item={user} />)}
             </ol>
         </div>
     )
