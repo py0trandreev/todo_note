@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-
 import {
   Link
 } from "react-router-dom";
@@ -21,15 +20,32 @@ function NavbarItem({name, href}) {
 }
 
 
-export default function Navbar({ navbarItems }) {
-    const [title, setTitle] = useState('');
 
-    return (
+class Navbar extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            fieldValue:'',
+        };
+    };
+
+    print =()=>{
+        console.log("*****////////" + this.props);
+    }
+
+    changeTitle = (e) => {
+        this.setState({fieldValue: e.target.value});
+    }
+
+
+    render() {
+     return (
         <div>
             <nav className="navbar is-light" role="navigation" aria-label="main navigation">
                 <div className="navbar-menu">
                     <div className="navbar-start">
-                        { navbarItems.map((item) => <NavbarItem name={ item.name } href={ item.href }/>) }
+                        {this.props.navbarItems.map((item) => <NavbarItem name={item.name} href={item.href}/>)}
+
                     </div>
 
                         <div className="navbar-end">
@@ -37,12 +53,14 @@ export default function Navbar({ navbarItems }) {
                             <div className="navbar-item">
                                 <div className="field has-addons">
                                     <div className="control">
-                                        <input className="input" type="text" value={ title }
-                                               onChange={ event => setTitle(event.target.value) } placeholder="Search"/>
+                                        <input className="input" type="text" value={ this.state.fieldValue }
+                                               onChange={ this.changeTitle } placeholder="Search"/>
+                                        {/*console.log(this.state.fieldValue)*/}
+
                                     </div>
                                     <div className="control">
-                                        <div hidden> { input_txt = { title }.title }</div>
-                                        <a className="button is-info" onClick={ filter }>
+                                        {/*<div hidden> { input_txt = this.state.fieldValue }</div>*/}
+                                        <a className="button is-info" onClick={()=>this.props.setProjSearch(this.state.fieldValue) }>
                                             Search
                                         </a>
                                     </div>
@@ -54,5 +72,7 @@ export default function Navbar({ navbarItems }) {
             </nav>
 
         </div>
-    )
+    )}
 }
+
+export default Navbar
