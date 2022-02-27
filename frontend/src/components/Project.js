@@ -31,7 +31,7 @@ const ProjectList = ({items, projectSubstr,deleteProject}) => {
             </tr>
             {/*Filter by name */}
             { items.map((item) => {
-                console.log(item)
+                console.log(`l34:item -${item}`)
                 if (!projectSubstr || item.name.includes(projectSubstr)) {
                     return (
                         <ProjectListItem key={ item.id } item={ item } deleteProject={ deleteProject }/>
