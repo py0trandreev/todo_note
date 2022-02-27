@@ -24,9 +24,9 @@ class TodoForm extends React.Component {
 
 
     handleSubmit(event) {
-      console.log(this.state.project)
-      console.log(this.state.text)
-      console.log(this.state.user)
+      console.log(`l27:handleSubmit(event)/this.state.project- ${this.state.project}`)
+      console.log(`l28:handleSubmit(event)/this.state.text- ${this.state.text}`)
+      console.log(`l29:handleSubmit(event)/this.state.user- ${this.state.user}` )
 
       this.props.createTodo(this.state.project, this.state.text, this.state.user)
       event.preventDefault()
