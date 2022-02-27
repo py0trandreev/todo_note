@@ -31,12 +31,12 @@ services:
     depends_on:
       - backend
 
-#  frontend:
-#    build: ./frontend
-#    ports:
-#      - '80:80'
-#    depends_on:
-#      - nginx
+  frontend:
+    build: ./frontend
+    ports:
+      - '80:80'
+    depends_on:
+      - nginx
 
   adminer:
     image: adminer:4.7.8-standalone
