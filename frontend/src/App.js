@@ -21,7 +21,7 @@ import TodoForm from "./components/TodoForm";
 
 
 
-const DOMAIN = 'http://194.67.104.217:8000'
+const DOMAIN = 'http://80.78.251.91:8000'
 const getUrl = (endPoint) => `${DOMAIN}${endPoint}`
 
 
